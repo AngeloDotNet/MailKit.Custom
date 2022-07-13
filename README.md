@@ -7,79 +7,72 @@
 [![Github](https://img.shields.io/github/contributors/AngeloDotNet/MailKit.Custom?logo=github&style=for-the-badge)](https://github.com/AngeloDotNet/MailKit.Custom/graphs/contributors)
 
 
-### Installation
+## Installation
 
 The library is available on [NuGet](https://www.nuget.org/packages/MailKit.Custom).
 
 
-### Usage/Examples
+## How to usage
 
 An example of how to invoke the SendEmailAsync method
 
-
-**NOTE:** It is possible to use both for the sender and for the recipient the short format (by evaluating the MITTENTE and DESTINATARIO fields) or the extended format (by evaluating the fields MITTENTENOMINATIVO, MITTENTEEMAIL, DESTINATARIONOMINATIVO and DESTINATARIOEMAIL).
+**NOTE:** It is possible to use both for the sender and for the recipient the short format (by evaluating the *MITTENTE* and *DESTINATARIO* fields).
+Or the extended format (by evaluating the fields *MITTENTENOMINATIVO*, *MITTENTEEMAIL*, *DESTINATARIONOMINATIVO* and *DESTINATARIOEMAIL*).
 
 *Do NOT USE both formats, but choose only one type.*
 
 
-*Model example*
+## Example of use
+
+*Email Controller*
 ```
-namespace MyProject;
+using System;
+using System.Threading.Tasks;
+using MailKit.Custom.InputModels;
+using MailKit.Custom.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-public class InputMail
+namespace MyProject.Controllers
 {
-    public string Mittente { get; set; }
-    public string Destinatario { get; set; }
-    public string Oggetto { get; set; }                 //Required field
-    public string Messaggio { get; set; }               //Required field
-    public bool FormatoHtml { get; set; }               //Set to TRUE if you want to send emails in HTML format, otherwise leave it to FALSE
-    public InputOptions mailOptions { get; set; }
-    public InputExtender mailExtender { get; set; }
-}
+    [ApiController]
+    [Route("api/[controller]")]
+    public class EmailController : ControllerBase
+    {
+        private readonly ILogger<EmailController> logger;
+        private readonly IEmailSenderService emailService;
 
-public partial class InputOptions
-{
-    public string Host { get; set; }                    //Required field
-    public int Port { get; set; }                       //Required field
-    public SecureSocketOptions Security { get; set; }   //Required field
-    public string Username { get; set; }                //Mandatory field if the mail server requires authentication
-    public string Password { get; set; }                //Mandatory field if the mail server requires authentication
-}
+        public EmailController(ILogger<EmailController> logger, IEmailSenderService emailService)
+        {
+            this.logger = logger;
+            this.emailService = emailService;
+        }
 
-public partial class InputExtender
-{
-    public string MittenteNominativo { get; set; }
-    public string MittenteEmail { get; set; }
-    public string DestinatarioNominativo { get; set; }
-    public string DestinatarioEmail { get; set; }
+        [HttpPost("InvioEmail")]
+        public async Task<IActionResult> InvioEmail([FromForm] InputMailSender model)
+        {
+            try
+            {
+                await emailService.SendEmailAsync(model);
+                return Ok();
+            }
+            catch
+            {
+                throw new Exception();
+            }
+        }
+    }
 }
 ```
 
-
-*Class example*
+*Method CONFIGURE class STARTUP
 ```
-namespace MyProject;
-
-public class MyClass
+public void ConfigureServices(IServiceCollection services)
 {
-  private readonly IEmailSenderService emailService;
+    //OMISSIS
 
-  public MyClass(IEmailSenderService emailService)
-  {
-    this.emailService = emailService;
-  }
+    services.AddTransient<IEmailSenderService, MailKitEmailSender>();
 
-  public async Task<IActionResult> InvioEmail([FromForm] InputMail model)
-  {
-      try
-      {
-          await emailService.SendEmailAsync(model);
-          return Ok();
-      }
-      catch
-      {
-          throw new Exception();
-      }
-  }
+    //OMISSIS
 }
 ```
