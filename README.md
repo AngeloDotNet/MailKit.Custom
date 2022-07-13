@@ -30,20 +30,20 @@ public class InputMail
 {
     public string Mittente { get; set; }
     public string Destinatario { get; set; }
-    public string Oggetto { get; set; }                 //Required field
-    public string Messaggio { get; set; }               //Required field
-    public bool FormatoHtml { get; set; }               //Set to TRUE if you want to send emails in HTML format, otherwise leave it to FALSE
+    public string Oggetto { get; set; }               //Required field
+    public string Messaggio { get; set; }             //Required field
+    public bool FormatoHtml { get; set; }             //Set TRUE if you want to send emails in HTML format
     public InputOptions mailOptions { get; set; }
-    public InputExtender mailExtender { get; set; }
+    public InputExtender mailExtender { get; set; }  
 }
 
 public partial class InputOptions
 {
-    public string Host { get; set; }                    //Required field
-    public int Port { get; set; }                       //Required field
-    public SecureSocketOptions Security { get; set; }   //Required field
-    public string Username { get; set; }                //Mandatory field if the mail server requires authentication
-    public string Password { get; set; }                //Mandatory field if the mail server requires authentication
+    public string Host { get; set; }                  //Required field
+    public int Port { get; set; }                     //Required field
+    public SecureSocketOptions Security { get; set; } //Required field
+    public string Username { get; set; }              //Mandatory field if the mailserver requires authentication
+    public string Password { get; set; }              //Mandatory field if the mailserver requires authentication
 }
 
 public partial class InputExtender
