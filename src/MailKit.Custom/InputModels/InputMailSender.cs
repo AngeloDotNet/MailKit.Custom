@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using MailKit.Security;
+using Microsoft.AspNetCore.Http;
 
 namespace MailKit.Custom.InputModels;
 
@@ -40,4 +41,6 @@ public partial class InputMailExtender
     public string MittenteEmail { get; set; }
     public string DestinatarioNominativo { get; set; }
     public string DestinatarioEmail { get; set; }
+    public IFormFile Allegato { get; set; }
+    public List<IFormFile> Allegati { get; set; }
 }

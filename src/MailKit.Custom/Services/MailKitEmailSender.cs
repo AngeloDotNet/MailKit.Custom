@@ -18,9 +18,9 @@ public class MailKitEmailSender : IEmailSenderService
         try
         {
             var options = model.mailOptions;
-
             using SmtpClient client = new();
 
+            //Connessione al server di posta, indicando HOST, PORT e SECURITY
             await client.ConnectAsync(options.Host, options.Port, options.Security);
 
             //Server di posta richiede l'autenticazione tramite username e password
@@ -31,7 +31,7 @@ public class MailKitEmailSender : IEmailSenderService
 
             MimeMessage message = new();
 
-            //Mittente
+            //Imposto il formato del mittente
             if (!string.IsNullOrEmpty(model.mailExtender.MittenteNominativo))
             {
                 message.From.Add(MailboxAddress.Parse($"{model.mailExtender.MittenteNominativo} <{model.mailExtender.MittenteEmail}>"));
@@ -41,7 +41,7 @@ public class MailKitEmailSender : IEmailSenderService
                 message.From.Add(MailboxAddress.Parse(model.Mittente));
             }
 
-            //Destinatario
+            //Imposto il formato del destinatario
             if (!string.IsNullOrEmpty(model.mailExtender.DestinatarioNominativo))
             {
                 message.To.Add(MailboxAddress.Parse($"{model.mailExtender.DestinatarioNominativo} <{model.mailExtender.DestinatarioEmail}>"));
@@ -55,14 +55,58 @@ public class MailKitEmailSender : IEmailSenderService
 
             var builder = new BodyBuilder();
 
+            //Allegato/i
+            var allegato = model.mailExtender.Allegato;
+            var allegati = model.mailExtender.Allegati;
+
+            if (allegati.Count > 0)
+            {
+                if (allegati != null)
+                {
+                    byte[] fileBytes;
+
+                    foreach (var file in allegati)
+                    {
+                        if (file.Length > 0)
+                        {
+                            using (var ms = new MemoryStream())
+                            {
+                                file.CopyTo(ms);
+                                fileBytes = ms.ToArray();
+                            }
+
+                            builder.Attachments.Add(file.FileName, fileBytes, ContentType.Parse(file.ContentType));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (allegato != null)
+                {
+                    byte[] fileBytes;
+
+                    if (allegato.Length > 0)
+                    {
+                        using (var ms = new MemoryStream())
+                        {
+                            allegato.CopyTo(ms);
+                            fileBytes = ms.ToArray();
+                        }
+
+                        builder.Attachments.Add(allegato.FileName, fileBytes, ContentType.Parse(allegato.ContentType));
+                    }
+                }
+            }
+
             if (!model.FormatoHtml)
             {
-                //Messaggio formato TESTO
+                //Formato TESTO
                 builder.TextBody = model.Messaggio;
             }
             else
             {
-                //Messaggio formato HTML
+                //Formato HTML
                 builder.HtmlBody = model.Messaggio;
             }
 
