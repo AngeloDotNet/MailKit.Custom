@@ -37,7 +37,7 @@ jobs:
       run: dotnet pack -c Release -o . '${{ env.PROJECT_NAME }}/${{ env.PROJECT_FILE }}'
 
     - name: Publish on NuGet
-      run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s http://nuget.aepservice.it:8081/repository/repository-nuget/
       
     - name: Create release
       uses: actions/create-release@v1
