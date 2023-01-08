@@ -2,8 +2,8 @@
 
 A library that allows you to easily integrate email sending with MailKit into a .NET application.
 
-[![NuGet](https://img.shields.io/nuget/v/MailKit.Custom.svg?logo=nuget&style=for-the-badge)](https://www.nuget.org/packages/MailKit.Custom)
-[![Nuget](https://img.shields.io/nuget/dt/MailKit.Custom.svg?logo=nuget&style=for-the-badge)](https://www.nuget.org/packages/MailKit.Custom)
+[![NuGet](https://img.shields.io/nuget/v/MailKit.Custom.svg?logo=nuget&style=for-the-badge)](http://nuget.aepservice.it:8081/repository/repository-nuget/MailKit.Custom)
+[![Nuget](https://img.shields.io/nuget/dt/MailKit.Custom.svg?logo=nuget&style=for-the-badge)](http://nuget.aepservice.it:8081/repository/repository-nuget/MailKit.Custom)
 [![MIT](https://img.shields.io/github/license/AngeloDotNet/MailKit.Custom?logo=github&style=for-the-badge)](https://github.com/AngeloDotNet/MailKit.Custom/blob/master/LICENSE)
 ![Github](https://img.shields.io/github/last-commit/AngeloDotNet/MailKit.Custom?logo=github&style=for-the-badge)
 [![Github](https://img.shields.io/github/contributors/AngeloDotNet/MailKit.Custom?logo=github&style=for-the-badge)](https://github.com/AngeloDotNet/MailKit.Custom/graphs/contributors)
@@ -11,7 +11,7 @@ A library that allows you to easily integrate email sending with MailKit into a 
 
 ## Installation
 
-The library is available on [NuGet](https://www.nuget.org/packages/MailKit.Custom).
+The library is available on [Personal NuGet](http://nuget.aepservice.it:8081/#browse/browse:repository-nuget).
 
 
 ## How to usage
