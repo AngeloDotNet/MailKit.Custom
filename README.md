@@ -3,7 +3,7 @@
 
 ## Installation
 
-The library is available on [Personal NuGet](http://nuget.aepservice.it:8081/service/rest/repository/browse/repository-nuget/MailKit.Custom/).
+The library is available on [Personal NuGet](http://nuget.aepservice.it/service/rest/repository/browse/repository-nuget/MailKit.Custom/).
 
 
 ## How to usage
